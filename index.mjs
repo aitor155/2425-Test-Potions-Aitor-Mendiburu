@@ -2,8 +2,7 @@ import Cauldron from "./cauldron.mjs";
 import { getDiseases, getIngredients, getPlayerData } from "./api.mjs";
 import PotionIngredients from "./ingredients.mjs";
 
-
-function randomSelectedIngredients (ingredientsAPI) {
+function randomSelectedIngredients(ingredientsAPI) {
     let randomIngredients = [];
     let randomIngredient = {};
     let randomQuantity = Math.floor(Math.random() * (4 - 2 + 1) + 2);
@@ -16,32 +15,26 @@ function randomSelectedIngredients (ingredientsAPI) {
     return randomIngredients
 }
 
-
-function potionCreation (randomSelectedIngredients, diseases, playerData) {
-
-    console.log("creating potions");
-
+export default function potionCreation(randomSelectedIngredients, diseases, playerData) {
     const ingredients = PotionIngredients.load(randomSelectedIngredients);
-
-    // Create the cauldron with the ingredient instances
     const cauldron = new Cauldron(ingredients, diseases, playerData);
     const ingredientsCauldron = cauldron.ingredients.ingredients;
-
     const potionResult = cauldron.createPotion(ingredientsCauldron);
-
-    console.log(potionResult);
-
+    // console.log(potionResult);
+    return potionResult;
 }
 
-const diseases = await getDiseases();
-const ingredientsAll = await getIngredients();
-const playerData = await getPlayerData("aitor.mendiburu@ikasle.aeg.eus");
+// Wrap the execution code in an async function
+export async function initialize() {
+    const diseases = await getDiseases();
+    const ingredientsAll = await getIngredients();
+    const playerData = await getPlayerData("aitor.mendiburu@ikasle.aeg.eus");
 
-let selectIngredient = randomSelectedIngredients(ingredientsAll.data);
-console.log(selectIngredient);
+    let selectIngredient = randomSelectedIngredients(ingredientsAll.data);
 
+    return potionCreation(selectIngredient, diseases, playerData);
+}
 
-potionCreation(selectIngredient, diseases, playerData);
-
+initialize();
 
 

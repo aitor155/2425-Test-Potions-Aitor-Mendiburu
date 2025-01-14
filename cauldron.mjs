@@ -19,7 +19,6 @@ class Cauldron {
 
     createPotion(ingredients) {
 
-        console.log("Ingredientes proporcionados:", ingredients);
 
         const numIngredients = ingredients.length;
         if (numIngredients < 2 || numIngredients > 4) {
@@ -31,8 +30,6 @@ class Cauldron {
         const commonAttributeEffects = ingredient1.findCommonAttributeEffectsMultipleSet(...restIngredients);
         const commonEffects = ingredient1.findCommonEffectsMultipleSet(...restIngredients);
 
-        console.log('Efectos comunes basados en el atributo:', commonAttributeEffects);
-        console.log('Efectos comunes basados en el atributo:', commonEffects);
 
         //Create Essence/Stench/Venom/Elixir/Purification
         if (commonAttributeEffects.length > 0) {
@@ -152,7 +149,6 @@ class Cauldron {
             });
 
             if (matchingIngredients.length === requiredEffects.length) {
-                console.log("create poisonPotion");
 
                 const potion = Poison.create(disease);
                 return potion;
